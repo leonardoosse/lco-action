@@ -11,7 +11,12 @@ inputs:
     - all
     - db
     - aws
-    
+
+outputs:
+  get_vars:
+    description: "Random number"
+    value: ${{ steps.read_file.outputs.variable02 }}
+
 runs:      
   using: "composite"
   steps:
@@ -43,6 +48,7 @@ runs:
       cat temp_vars/variables.csv
       
   - name: Read File
+    id: read_file
     shell: bash        
     run: |
       variables=$(jq -Rsn '
@@ -54,15 +60,22 @@ runs:
       ' <temp_vars/variables.csv)
 
       vars=$(echo "${variables}" | jq '.variables[] | select(.env=="${{ inputs.ENVIRONMENT }}")')  
-      echo $vars
-      if [[ -n  $vars ]]; then 
-        echo "true"
-        
-        echo ::set-output name=variables::{\"include\":$vars}
-        echo $applications
-        
+      
+        echo $vars | jq -c '.[]' | while read var; do
+          key=$(echo $var | jq -r .key)
+          valeu=$(echo $var | jq -r .valeu)
+          echo "$key: $value \n"          
+          echo "$key=$valeu" >> $GITHUB_ENV
+        done      
+      
+            
+      #if [[ -n  $vars ]]; then 
+        #echo "true"
+
+        #echo ::set-output name=teste::$(echo $vars | jq -r '.variables[] | select(.key=="${{ inputs.ENVIRONMENT }}")')
+        #echo ::set-output name=variables::{\"include\":$vars}
         #echo "sast_upload=$(echo $repository | jq -r .sast_upload)" >> $GITHUB_ENV
         #echo "sca=$(echo $repository | jq -r .sca)" >> $GITHUB_ENV        
-      fi        
+      #fi        
       rm -R temp_vars           
       
