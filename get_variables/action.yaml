@@ -99,7 +99,7 @@ runs:
     shell: bash       
     run: |
       echo "sec_value: ${{ env.sec_value }}"
-      #echo "::set-env name=sec_value::${{ secrets[env.sec_value] }}"
+#echo "::set-env name=sec_value::${{ secrets[env.sec_value] }}"
   - name: Sec Value
     shell: bash   
     run: |
