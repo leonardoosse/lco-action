@@ -1,0 +1,17 @@
+name: Action Test
+ 
+on:
+  workflow_dispatch: 
+    inputs:
+     
+jobs:  
+  action-test:
+    name: Action Test
+    runs-on: ubuntu-latest
+    permissions: write-all    
+    steps:
+    - name: Bash Command
+      env:
+        var_key: var_value
+      run: |
+        echo "${{ env.var_key }}"
