@@ -2,3 +2,5 @@ env,type,variable,value
 dev,bd,variable01,valor01
 dev,bd,variable02,valor02
 dev,aws,variable03,valor03
+taq,aws,variable04,valor04
+
