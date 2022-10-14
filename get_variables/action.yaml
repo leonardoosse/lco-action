@@ -85,8 +85,19 @@ runs:
       done  
       
       rm -R temp_vars        
+            
       
   - name: Read File
     shell: bash        
     run: |
       echo ${{ env.variable02 }}    
+
+  - run: echo "sec_value=valor_secreto" >> $GITHUB_ENV
+  - run: |
+      echo "sec_value: ${{ env.sec_value }}"
+      echo "::set-env name=sec_value::${{ secrets[env.sec_value] }}"
+  - run: |
+      echo "sec_value: ${{ env.sec_value }}"
+      echo "sec_value: $sec_value"
+
+
