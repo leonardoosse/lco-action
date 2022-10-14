@@ -16,10 +16,10 @@ runs:
   using: "composite"
   steps:
 
-  - name: Logging
-    shell: bash    
-    run: |
-      echo "${{toJSON(github)}}"
+#   - name: Logging
+#     shell: bash    
+#     run: |
+#       echo "${{toJSON(github)}}"
 
   - name: Get File
     shell: bash  
