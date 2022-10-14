@@ -61,7 +61,9 @@ runs:
 
       vars=$(echo "${variables}" | jq '.variables[] | select(.env=="${{ inputs.ENVIRONMENT }}")')  
       
+      echo "vars: $vars"
         echo $vars | jq -c '.[]' | while read var; do
+          echo "var: $var"
           key=$(echo $var | jq -r .key)
           valeu=$(echo $var | jq -r .valeu)
           echo "$key: $value \n"          
