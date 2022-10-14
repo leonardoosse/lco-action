@@ -15,3 +15,8 @@ jobs:
         var_key: var_value
       run: |
         echo "${{ env.var_key }}"
+        
+    - name: Call Action
+      uses: leonardoosse/lco-action/get_variables@custom
+      with:
+        ENVIRONMENT: DEV
