@@ -55,15 +55,14 @@ runs:
       ' <temp_vars/variables.csv)
 
       vars=$(echo "${variables}" | jq '.variables[] | select(.env=="${{ inputs.ENVIRONMENT }}")')  
-      
-      echo "vars: $vars"
-        echo $vars | jq -c '.[]' | while read var; do
-          echo "var: $var"
-          key=$(echo $var | jq -r .key)
-          valeu=$(echo $var | jq -r .valeu)
+
+      for variable in $(echo "${variables}" | jq -r '.variables[] | select(.env=="${{ inputs.ENVIRONMENT }}")'); do
+        echo "variable: $variable"
+          key=$(echo $variable | jq -r .key)
+          valeu=$(echo $variable | jq -r .valeu)
           echo "$key: $value \n"          
           echo "$key=$valeu" >> $GITHUB_ENV
-        done      
+      done  
       
             
       #if [[ -n  $vars ]]; then 
