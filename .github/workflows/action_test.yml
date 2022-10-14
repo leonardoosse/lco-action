@@ -24,5 +24,7 @@ jobs:
 
     - name: Bash Command
       run: |
-        echo ${{ steps.get_variable.outputs.variable02 }}        
+        echo ${{ steps.get_variable.outputs.get_vars }}       
+        echo ${{ steps.get_variable.outputs.variable02 }}                
+        echo ${{ steps.get_variable.outputs.get_vars.variable02 }}        
         
