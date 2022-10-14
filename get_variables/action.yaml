@@ -40,5 +40,6 @@ runs:
     shell: bash    
     run: |
       cd temp_vars
-      cat variable*
+      ls
+      cat variables.csv*
       
