@@ -29,11 +29,11 @@ runs:
       repo: 'lco-action'
       path: 'get_variables/variables.csv'
     run: |
-      mkdir temp_vars
+      mkdir temp_vars && cd temp_vars
       curl \
         -H 'Authorization: token ${{ github.token }}' \
         -H 'Accept: application/vnd.github.v3.raw' \
-        -O -o temp_vars \
+        -O \
         -L '${{ env.uri }}/${{ env.owner }}/${{ env.repo }}/contents/${{ env.path }}'      
         
   - name: Logging
