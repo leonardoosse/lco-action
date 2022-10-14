@@ -39,6 +39,6 @@ runs:
   - name: Logging
     shell: bash    
     run: |
-      ls
-      cat variables.csv*
+      ls temp_vars
+      cat temp_vars/variables.csv*
       
