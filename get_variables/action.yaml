@@ -55,12 +55,12 @@ runs:
 
       vars=$(echo "${variables}" | jq '.variables[] | select(.env=="${{ inputs.ENVIRONMENT }}")')  
       echo $vars
-      if [[ -n  $variables ]]; then 
+      if [[ -n  $vars ]]; then 
         echo "true"
-        for var in $vars
-        then
-          echo $var
-        done
+        
+        echo ::set-output name=variables::{\"include\":$vars}
+        echo $applications
+        
         #echo "sast_upload=$(echo $repository | jq -r .sast_upload)" >> $GITHUB_ENV
         #echo "sca=$(echo $repository | jq -r .sca)" >> $GITHUB_ENV        
       fi        
