@@ -56,10 +56,14 @@ runs:
 
       for variable in $(echo "${variables}" | jq -r '.variables[] | select(.env=="${{ inputs.ENVIRONMENT }}") | @base64'); do
           key=$(echo ${variable} | base64 --decode | jq -r .key)
-          valeu=$(echo ${variable} | base64 --decode | jq -r .value)
+          value=$(echo ${variable} | base64 --decode | jq -r .value)
           echo "$key: $value"          
-          echo "$key=$valeu" >> $GITHUB_ENV
+          echo "$key=$value" >> $GITHUB_ENV
       done  
       
       rm -R temp_vars           
       
+  - name: Read File
+    shell: bash        
+    run: |
+      echo ${{ env.variable02 }}    
