@@ -35,4 +35,10 @@ runs:
         -H 'Accept: application/vnd.github.v3.raw' \
         -O temp_vars \
         -L '${{ env.uri }}/${{ env.owner }}/${{ env.repo }}/contents/${{ env.path }}'      
+        
+  - name: Logging
+    shell: bash    
+    run: |
+      ls
+      ls temp_vars
       
