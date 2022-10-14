@@ -17,6 +17,12 @@ jobs:
         echo "${{ env.var_key }}"
         
     - name: Call Action
+      id: get_variable
       uses: leonardoosse/lco-action/get_variables@custom
       with:
         ENVIRONMENT: dev
+
+    - name: Bash Command
+      run: |
+        echo ${{ steps.get_variable.outputs.variable02 }}        
+        
