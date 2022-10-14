@@ -1,0 +1,37 @@
+name: 'Clean Application'
+
+inputs:  
+  ENVIRONMENT:
+    type: string
+    required: true  
+  VARIABLE_TYPE:
+    default: all   
+    type: choice
+    options:
+    - all
+    - db
+    - aws
+    
+runs:      
+  using: "composite"
+  steps:
+
+  - name: Logging
+    run: |
+      echo "${{toJSON(github)}}"
+
+  - name: Get File
+    shell: bash  
+    env:
+      uri: 'https://api.github.com/repos'
+      owner: 'leonardoosse'
+      repo: 'lco-action'
+      path: 'get_variable/variables.csv'
+    run: |
+      mkdir temp_vars
+      curl \
+        -H 'Authorization: token ${{ github.token }}' \
+        -H 'Accept: application/vnd.github.v3.raw' \
+        -O temp_vars \
+        -L '${{ env.uri }}/${{ env.owner }}/${{ env.repo }}/contents/${{ env.path }}'      
+      
