@@ -54,24 +54,12 @@ runs:
            | {"env": $input[0], "type": $input[1], "key": $input[2], "value": $input[3]}]}
       ' <temp_vars/variables.csv)
 
-      #vars=$(echo "${variables}" | jq '.variables[] | select(.env=="${{ inputs.ENVIRONMENT }}")')  
-
       for variable in $(echo "${variables}" | jq -r '.variables[] | select(.env=="${{ inputs.ENVIRONMENT }}") | @base64'); do
-        echo "variable: $variable"
           key=$(echo ${variable} | base64 --decode | jq -r .key)
-          valeu=$(echo ${variable} | base64 --decode | jq -r .valeu)
-          echo "$key: $value \n"          
+          valeu=$(echo ${variable} | base64 --decode | jq -r .value)
+          echo "$key: $value"          
           echo "$key=$valeu" >> $GITHUB_ENV
       done  
       
-            
-      #if [[ -n  $vars ]]; then 
-        #echo "true"
-
-        #echo ::set-output name=teste::$(echo $vars | jq -r '.variables[] | select(.key=="${{ inputs.ENVIRONMENT }}")')
-        #echo ::set-output name=variables::{\"include\":$vars}
-        #echo "sast_upload=$(echo $repository | jq -r .sast_upload)" >> $GITHUB_ENV
-        #echo "sca=$(echo $repository | jq -r .sca)" >> $GITHUB_ENV        
-      #fi        
       rm -R temp_vars           
       
