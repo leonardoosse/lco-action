@@ -27,7 +27,7 @@ runs:
       uri: 'https://api.github.com/repos'
       owner: 'leonardoosse'
       repo: 'lco-action'
-      path: 'get_variable/variables.csv'
+      path: 'get_variables/variables.csv'
     run: |
       mkdir temp_vars
       curl \
