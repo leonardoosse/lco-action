@@ -19,4 +19,4 @@ jobs:
     - name: Call Action
       uses: leonardoosse/lco-action/get_variables@custom
       with:
-        ENVIRONMENT: DEV
+        ENVIRONMENT: dev
