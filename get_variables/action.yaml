@@ -40,5 +40,29 @@ runs:
     shell: bash    
     run: |
       ls temp_vars
-      cat temp_vars/variables.csv*
+      cat temp_vars/variables.csv
+      
+  - name: Read File
+    shell: bash        
+    run: |
+      variables=$(jq -Rsn '
+        {"variables":
+          [inputs
+           | . / "\n" 
+           | (.[] | select(length > 0) | . / ",") as $input
+           | {"env": $input[0], "type": $input[1], "key": $input[2], "value": $input[3]}]}
+      ' <temp_vars/variables.csv)
+
+      vars=$(echo "${variables}" | jq '.variables[] | select(.env=="${{ inputs.ENVIRONMENT }}")')  
+      echo $vars
+      if [[ -n  $variables ]]; then 
+        echo "true"
+        for var in $vars
+        then
+          echo $var
+        done
+        #echo "sast_upload=$(echo $repository | jq -r .sast_upload)" >> $GITHUB_ENV
+        #echo "sca=$(echo $repository | jq -r .sca)" >> $GITHUB_ENV        
+      fi        
+      rm -R temp_vars           
       
