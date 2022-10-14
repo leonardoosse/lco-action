@@ -92,11 +92,17 @@ runs:
     run: |
       echo ${{ env.variable02 }}    
 
-  - run: echo "sec_value=valor_secreto" >> $GITHUB_ENV
-  - run: |
+  - name: Sec Value
+    shell: bash   
+    run: echo "sec_value=valor_secreto" >> $GITHUB_ENV
+  - name: Sec Value
+    shell: bash       
+    run: |
       echo "sec_value: ${{ env.sec_value }}"
       echo "::set-env name=sec_value::${{ secrets[env.sec_value] }}"
-  - run: |
+  - name: Sec Value
+    shell: bash   
+    run: |
       echo "sec_value: ${{ env.sec_value }}"
       echo "sec_value: $sec_value"
 
