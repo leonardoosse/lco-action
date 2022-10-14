@@ -12,10 +12,10 @@ inputs:
     - db
     - aws
 
-outputs:
-  get_vars:
-    description: "Random number"
-    value: ${{ steps.read_file.outputs.variable02 }}
+# outputs:
+#   get_vars:
+#     description: "Random number"
+#     value: ${{ steps.read_file.outputs.variable02 }}
 
 runs:      
   using: "composite"
@@ -43,7 +43,8 @@ runs:
         
       
   - name: Read File
-    id: read_file
+    if: inputs.VARIABLE_TYPE == 'all'  
+#     id: read_file
     shell: bash        
     run: |
       variables=$(jq -Rsn '
@@ -61,7 +62,29 @@ runs:
           echo "$key=$value" >> $GITHUB_ENV
       done  
       
-      rm -R temp_vars           
+      rm -R temp_vars    
+      
+  - name: Read File
+    if: inputs.VARIABLE_TYPE != 'all'
+#     id: read_file
+    shell: bash        
+    run: |
+      variables=$(jq -Rsn '
+        {"variables":
+          [inputs
+           | . / "\n" 
+           | (.[] | select(length > 0) | . / ",") as $input
+           | {"env": $input[0], "type": $input[1], "key": $input[2], "value": $input[3]}]}
+      ' <temp_vars/variables.csv)
+
+      for variable in $(echo "${variables}" | jq -r '.variables[] | select(.env=="${{ inputs.ENVIRONMENT }}" and .type=="${{ inputs.VARIABLE_TYPE }}") | @base64'); do
+          key=$(echo ${variable} | base64 --decode | jq -r .key)
+          value=$(echo ${variable} | base64 --decode | jq -r .value)
+          echo "$key: $value"          
+          echo "$key=$value" >> $GITHUB_ENV
+      done  
+      
+      rm -R temp_vars        
       
   - name: Read File
     shell: bash        
