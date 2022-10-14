@@ -17,6 +17,7 @@ runs:
   steps:
 
   - name: Logging
+    shell: bash    
     run: |
       echo "${{toJSON(github)}}"
 
