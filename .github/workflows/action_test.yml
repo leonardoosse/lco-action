@@ -21,9 +21,12 @@ jobs:
       uses: leonardoosse/lco-action/get_variables@custom
       with:
         ENVIRONMENT: dev
+        VARIABLE_TYPE: aws
 
     - name: Bash Command
       run: |
         echo ${{ env.variable02 }}                
-        echo ${{ env.variable01 }}                
+        echo ${{ env.variable01 }}    
+        echo ${{ env.variable03 }}                
+        
         
